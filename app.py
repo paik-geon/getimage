@@ -17,12 +17,12 @@ try:
 except Exception as e:
     st.error("❌ st.secrets 로딩 실패: " + str(e))
 
-# STEP 2. PyDrive2 인증 및 객체 생성
 def google_drive_auth():
     gauth = GoogleAuth()
     gauth.settings["client_config_backend"] = "service"
     gauth.settings["service_config"] = {
-        "client_json_file_path": "temp_credentials.json"
+        "client_json_file_path": "temp_credentials.json",
+        "client_user_email": "streamlituploader@norse-block-314201.iam.gserviceaccount.com"  # ✅ 강제 추가
     }
     gauth.ServiceAuth()
     return GoogleDrive(gauth)
