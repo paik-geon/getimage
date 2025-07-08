@@ -9,6 +9,11 @@ FOLDER_ID = "1rOJG4knmnlOruo0j720UMdRaqV8bVP1L"
 # credentials.json을 임시 생성
 with open("temp_credentials.json", "w") as f:
     f.write(st.secrets["GOOGLE_SERVICE_KEY"])
+try:
+    creds = json.loads(st.secrets["GOOGLE_SERVICE_KEY"])
+    st.write("✅ client_email:", creds["client_email"])
+except Exception as e:
+    st.error("❌ st.secrets 로딩 실패: " + str(e))
 
 # PyDrive2 인증
 def google_drive_auth():
