@@ -2,12 +2,22 @@ import streamlit as st
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import tempfile
+import json
 
 FOLDER_ID = "1rOJG4knmnlOruo0j720UMdRaqV8bVP1L"
 
+# credentials.json을 임시 생성
+with open("temp_credentials.json", "w") as f:
+    f.write(st.secrets["GOOGLE_SERVICE_KEY"])
+
+# PyDrive2 인증
 def google_drive_auth():
     gauth = GoogleAuth()
-    gauth.ServiceAuth()  # settings.yaml + credentials.json 기반 인증
+    gauth.settings["client_config_backend"] = "service"
+    gauth.settings["service_config"] = {
+        "client_json_file_path": "temp_credentials.json"
+    }
+    gauth.ServiceAuth()
     return GoogleDrive(gauth)
 
 st.title("사진 업로드")
